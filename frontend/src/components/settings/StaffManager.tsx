@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { getFunctionName } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { usePlanLimits } from "@/hooks/usePlanLimits";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -51,12 +52,14 @@ export default function StaffManager() {
   const [whatsappNumber, setWhatsappNumber] = useState("");
   const [selectedPermissions, setSelectedPermissions] = useState<string[]>([]);
 
+  const fnUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/${getFunctionName("manage-staff")}`;
+
   const fetchStaff = useCallback(async () => {
     if (!user) return;
     setLoading(true);
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/manage-staff`,
+        fnUrl,
         {
           method: "POST",
           headers: {
@@ -99,7 +102,7 @@ export default function StaffManager() {
     try {
       const token = await getAuthToken();
       const res = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/manage-staff`,
+        fnUrl,
         {
           method: "POST",
           headers: {
@@ -137,7 +140,7 @@ export default function StaffManager() {
     try {
       const token = await getAuthToken();
       const res = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/manage-staff`,
+        fnUrl,
         {
           method: "POST",
           headers: {
@@ -164,7 +167,7 @@ export default function StaffManager() {
     try {
       const token = await getAuthToken();
       const res = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/manage-staff`,
+        fnUrl,
         {
           method: "POST",
           headers: {
@@ -192,7 +195,7 @@ export default function StaffManager() {
     try {
       const token = await getAuthToken();
       const res = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/manage-staff`,
+        fnUrl,
         {
           method: "POST",
           headers: {

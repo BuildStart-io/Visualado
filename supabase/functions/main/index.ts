@@ -13,9 +13,27 @@ serve(async (req: Request) => {
     return new Response("BuildStart.io edge-runtime router OK", { status: 200 });
   }
 
+  // Determine servicePath: check if directory exists, else fallback
+  let servicePath = `/home/deno/functions/${functionName}`;
+  try {
+    const stat = await Deno.stat(servicePath);
+    if (!stat.isDirectory) throw new Error("Not a directory");
+  } catch {
+    if (functionName.includes('_')) {
+      const baseFn = functionName.split('_')[0];
+      servicePath = `/home/deno/functions/${baseFn}`;
+    } else {
+      const suffixed = `/home/deno/functions/${functionName}_Visualado`;
+      try {
+        const stat = await Deno.stat(suffixed);
+        if (stat.isDirectory) servicePath = suffixed;
+      } catch {}
+    }
+  }
+
   try {
     const worker = await EdgeRuntime.userWorkers.create({
-      servicePath: `/home/deno/functions/${functionName}`,
+      servicePath,
       memoryLimitMb: 256,
       workerTimeoutMs: 5 * 60 * 1000,
       cpuTimeSoftLimitMs: 5 * 60 * 1000,
@@ -28,7 +46,7 @@ serve(async (req: Request) => {
     
     return await worker.fetch(req);
   } catch (e) {
-    console.error(`Error loading function ${functionName}:`, e);
+    console.error(`Error loading function ${functionName} (path: ${servicePath}):`, e);
     return new Response(JSON.stringify({ error: `Function ${functionName} not found or failed to start: ${e.message}` }), {
       status: 500,
       headers: { "Content-Type": "application/json" }

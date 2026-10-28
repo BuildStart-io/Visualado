@@ -4,6 +4,7 @@ import type { Database } from "./types";
 // Self-hosted Supabase. Values come from frontend/.env (see .env.example).
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string;
+export const SUPABASE_SCHEMA = (import.meta.env.VITE_SUPABASE_SCHEMA as string) || "Visualado";
 
 if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
   throw new Error(
@@ -11,10 +12,18 @@ if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
   );
 }
 
-export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_ANON_KEY, {
+export const getFunctionName = (baseName: string): string => {
+  return SUPABASE_SCHEMA ? `${baseName}_${SUPABASE_SCHEMA}` : baseName;
+};
+
+export const supabase = createClient<Database, "Visualado">(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  db: {
+    schema: SUPABASE_SCHEMA as "Visualado",
+  },
   auth: {
     storage: localStorage,
     persistSession: true,
     autoRefreshToken: true,
   },
 });
+

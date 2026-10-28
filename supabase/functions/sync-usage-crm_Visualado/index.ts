@@ -19,7 +19,9 @@ serve(async (req) => {
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "";
     
     // We use the service role key to bypass RLS and read all customer usage
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabase = createClient(supabaseUrl, supabaseServiceKey, {
+      db: { schema: "Visualado" }
+    });
 
     console.log("Starting CRM usage sync...");
 

@@ -7,6 +7,30 @@ services:
     ports:
       - "${STUDIO_PORT:-3030}:3000"
 
+  waha:
+    image: devlikeapro/waha:latest
+    container_name: waha
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      WHATSAPP_API_KEY: ${WAHA_API_KEY:-buildstart_waha_api_secr3t_123}
+      WHATSAPP_DEFAULT_ENGINE: WEBJS
+
+  minio:
+    image: elestio/minio:latest
+    container_name: supabase-minio
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:-supa-storage}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY:-secret1234}
+    volumes:
+      - minio-data:/data
+    command: server /data --console-address :9001
+
   functions:
     environment:
       # ── BuildStart.io edge function secrets ──────────────────────────────────
@@ -19,4 +43,7 @@ services:
       MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
       MINIO_REGION: ${MINIO_REGION}
       FIREBASE_SERVICE_ACCOUNT_JSON: ${FIREBASE_SERVICE_ACCOUNT_JSON:-}
-      WEBHOOK_URL_OVERRIDE: "https://regards-translate-adventures-pine.trycloudflare.com/functions/v1/webhook-wsender"
+      WEBHOOK_URL_OVERRIDE: "https://sites-location-jamie-encountered.trycloudflare.com/functions/v1/webhook-wsender_Visualado"
+
+volumes:
+  minio-data:

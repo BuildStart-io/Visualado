@@ -81,7 +81,9 @@ async function resolveOwner(req: Request): Promise<{ ownerId: string; userId: st
   const userId = (data as any)?.claims?.sub;
   if (error || !userId) return null;
 
-  const admin = createClient(SUPABASE_URL, SERVICE_KEY);
+  const admin = createClient(SUPABASE_URL, SERVICE_KEY, {
+    db: { schema: "Visualado" }
+  });
   const { data: staff } = await admin
     .from("staff_accounts")
     .select("owner_id")

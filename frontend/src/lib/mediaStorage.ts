@@ -1,8 +1,8 @@
-import { supabase } from "@/integrations/supabase/client";
+import { supabase, getFunctionName } from "@/integrations/supabase/client";
 
 export type MediaFolder = "products" | "videos" | "welcome" | "faq";
 
-const FN_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/media-storage`;
+const FN_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/${getFunctionName("media-storage")}`;
 
 async function authHeader() {
   const { data: { session } } = await supabase.auth.getSession();

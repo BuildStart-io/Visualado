@@ -663,6 +663,7 @@ export type Database = {
       [_ in never]: never
     }
   }
+  Visualado: Database["public"]
 }
 
 type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">

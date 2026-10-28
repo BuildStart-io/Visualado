@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { planLabel } from "@/lib/planLabels";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase, getFunctionName } from "@/integrations/supabase/client";
 import { useRole } from "@/hooks/useRole";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -35,7 +35,7 @@ export default function AdminDashboard() {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) return;
 
-      const res = await supabase.functions.invoke("admin-manage-users", {
+      const res = await supabase.functions.invoke(getFunctionName("admin-manage-users"), {
         body: { action: "list_users" },
       });
 

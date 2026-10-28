@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase, getFunctionName } from "@/integrations/supabase/client";
 import { useRole } from "@/hooks/useRole";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, CardContent } from "@/components/ui/card";
@@ -57,7 +57,7 @@ export default function AdminAccounts() {
 
   const fetchUsers = async () => {
     setLoading(true);
-    const res = await supabase.functions.invoke("admin-manage-users", {
+    const res = await supabase.functions.invoke(getFunctionName("admin-manage-users"), {
       body: { action: "list_users" },
     });
     if (res.data?.users) setUsers(res.data.users);
@@ -74,7 +74,7 @@ export default function AdminAccounts() {
       body.password = newPassword;
       body.fullName = newFullName;
     }
-    const res = await supabase.functions.invoke("admin-manage-users", { body });
+    const res = await supabase.functions.invoke(getFunctionName("admin-manage-users"), { body });
     if (res.data?.error) {
       toast({ title: "Error", description: res.data.error, variant: "destructive" });
     } else if (res.error) {
@@ -89,7 +89,7 @@ export default function AdminAccounts() {
   };
 
   const handleToggleActive = async (userId: string, isActive: boolean) => {
-    const res = await supabase.functions.invoke("admin-manage-users", {
+    const res = await supabase.functions.invoke(getFunctionName("admin-manage-users"), {
       body: { action: "update_user", userId, isActive: !isActive },
     });
     if (!res.data?.error) {
@@ -99,7 +99,7 @@ export default function AdminAccounts() {
   };
 
   const handleUpdatePlan = async (userId: string, planTier: string) => {
-    const res = await supabase.functions.invoke("admin-manage-users", {
+    const res = await supabase.functions.invoke(getFunctionName("admin-manage-users"), {
       body: { action: "update_user", userId, planTier },
     });
     if (!res.data?.error) {
@@ -110,7 +110,7 @@ export default function AdminAccounts() {
 
   const handleDeleteUser = async (userId: string) => {
     if (!confirm("Are you sure? This will permanently delete this account and all their data.")) return;
-    const res = await supabase.functions.invoke("admin-manage-users", {
+    const res = await supabase.functions.invoke(getFunctionName("admin-manage-users"), {
       body: { action: "delete_user", userId },
     });
     if (!res.data?.error) {
