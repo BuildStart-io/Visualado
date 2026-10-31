@@ -143,9 +143,10 @@ serve(async (req) => {
     // WAHA session name locked to the user — slug-safe, deterministic, fits within ~25 chars.
     const sessionName = `u_${userId.replace(/-/g, "").substring(0, 20)}`;
     const override = Deno.env.get("WEBHOOK_URL_OVERRIDE");
-    const webhookUrl = override 
-      ? override.replace("webhook-wsender", "webhook-wsender_Visualado")
-      : `${supabaseUrl}/functions/v1/webhook-wsender_Visualado`;
+    let webhookUrl = override || `${supabaseUrl}/functions/v1/webhook-wsender_Visualado`;
+    if (!webhookUrl.includes("webhook-wsender_Visualado")) {
+      webhookUrl = webhookUrl.replace("webhook-wsender", "webhook-wsender_Visualado");
+    }
 
     // Helper: store/update mapping in user_wsender_sessions
     const upsertMapping = async (displayName?: string) => {

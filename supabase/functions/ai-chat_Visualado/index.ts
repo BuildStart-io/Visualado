@@ -170,7 +170,7 @@ serve(async (req) => {
     }
 
     // Build FAQ context with IDs so AI can report which ones it used
-    const faqContext = faqs.map(f => 
+    const faqContext = faqs.map(f =>
       `[FAQ_ID:${f.id}] Q: ${f.question}\nA: ${f.answer}${f.products?.name ? ` (Related to: ${f.products.name})` : ""}`
     ).join("\n\n");
 
@@ -181,14 +181,14 @@ serve(async (req) => {
       .map(msg => `${msg.direction === "inbound" ? "Customer" : "Assistant"}: ${msg.message}`)
       .join("\n");
 
-const systemPrompt = `You are an intelligent WhatsApp chatbot assistant for Visualado, a commercial machinery importer specializing in China-imported commercial wall printing machines.
+    const systemPrompt = `You are an intelligent WhatsApp chatbot assistant for Visualado, a commercial machinery importer specializing in imported commercial wall printing machines.
 
 CORE BEHAVIOR & MULTILINGUAL SUPPORT:
 - Read, understand, and reply seamlessly in Sinhala, English, and Tamil.
 - Handle both text messages and voice notes (which are transcribed to text). Auto-identify the language and script used (including Singlish and Tanglish) and respond in that exact same language.
 
 CONVERSATIONAL CHAT FLOW:
-- Step 1 - Welcome: Introduce Visualado and the China-imported commercial wall printing machine.
+- Step 1 - Welcome: Introduce Visualado and the -imported commercial wall printing machine.
 - Step 2 - Education: Explain that the machine comes in 3 print head variations:
   🔹 Standard: Reliable, cost-effective entry point for standard interior wall graphics.
   🔹 High-Speed: Higher throughput print heads for large commercial jobs and faster turnaround.
@@ -254,20 +254,20 @@ ${freeDeliveryThreshold > 0 ? `   - FREE DELIVERY THRESHOLD: If the order subtot
 - Sub-variants marked as REQUIRED must be selected by the customer before confirming an order. Always ask for required sub-variants if the customer hasn't specified them.
 - For payment, provide ALL configured payment account details to the customer. List every account with emoji separators:
 ${(() => {
-  const accounts = paymentInfo.accounts;
-  if (accounts && Array.isArray(accounts) && accounts.length > 0) {
-    return accounts.map((a: any, i: number) => {
-      const type = a.account_type || "bank";
-      const label = a.account_label || a.bank_name || "Not configured";
-      const number = a.account_number || "Not configured";
-      const name = a.account_name || "Not configured";
-      if (type === "crypto") return `  ${i + 1}. Crypto/Wallet: ${label}, Address/ID: ${number}, Name: ${name}`;
-      if (type === "digital") return `  ${i + 1}. Digital Wallet: ${label}, Account: ${number}, Name: ${name}`;
-      return `  ${i + 1}. Bank: ${label}, Account: ${number}, Name: ${name}`;
-    }).join("\n");
-  }
-  return `  Bank: ${paymentInfo.bank_name || "Not configured"}, Account: ${paymentInfo.account_number || "Not configured"}, Name: ${paymentInfo.account_name || "Not configured"}`;
-})()}
+        const accounts = paymentInfo.accounts;
+        if (accounts && Array.isArray(accounts) && accounts.length > 0) {
+          return accounts.map((a: any, i: number) => {
+            const type = a.account_type || "bank";
+            const label = a.account_label || a.bank_name || "Not configured";
+            const number = a.account_number || "Not configured";
+            const name = a.account_name || "Not configured";
+            if (type === "crypto") return `  ${i + 1}. Crypto/Wallet: ${label}, Address/ID: ${number}, Name: ${name}`;
+            if (type === "digital") return `  ${i + 1}. Digital Wallet: ${label}, Account: ${number}, Name: ${name}`;
+            return `  ${i + 1}. Bank: ${label}, Account: ${number}, Name: ${name}`;
+          }).join("\n");
+        }
+        return `  Bank: ${paymentInfo.bank_name || "Not configured"}, Account: ${paymentInfo.account_number || "Not configured"}, Name: ${paymentInfo.account_name || "Not configured"}`;
+      })()}
 - STRICT DATA BOUNDARY: You must ONLY use the product catalog, FAQs, and payment information provided below. Do NOT make up products, prices, features, or answers that are not explicitly listed. If a customer asks about something not covered, politely say you don't have that information and suggest they contact the business directly.
 
 PRODUCT IMAGES:
@@ -406,7 +406,7 @@ CRITICAL SECURITY RULE:
     if (usedFaqsMatch && trackedFaqIds.length > 0) {
       const usedIds = usedFaqIds;
       const trackedUsedIds = usedIds.filter((id: string) => trackedFaqIds.includes(id));
-      
+
       if (trackedUsedIds.length > 0) {
         console.log(`Tracked FAQs used: ${trackedUsedIds.join(", ")} for phone ${phoneNumber}`);
         const usageLogs = trackedUsedIds.map((faqId: string) => ({
