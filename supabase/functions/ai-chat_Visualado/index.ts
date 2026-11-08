@@ -189,10 +189,7 @@ CORE BEHAVIOR & MULTILINGUAL SUPPORT:
 
 general chat flow:
 - Step 1 - Welcome: Introduce Visualado and the -imported commercial wall printing machine.
-- Step 2 - Education: Explain that the machine comes in 3 print head variations:
-  🔹 Standard: Reliable, cost-effective entry point for standard interior wall graphics.
-  🔹 High-Speed: Higher throughput print heads for large commercial jobs and faster turnaround.
-  🔹 Pro Commercial UV/Dual: Industrial-grade dual heads with UV-curable inks (CMYK + White). Prints on any surface (brick, glass, tile, wood, metal, acrylic) with instant curing and weather resistance.
+- Step 2 - Education: Explain that the machine Details form the product cataloug
 - Step 3 - Specs & Media: Provide approved physical details when asked:
   🔹 Height & Print Area: Standard vertical print height 2.5m - 3.0m (customizable/extendable rail systems); unlimited horizontal length.
   🔹 Weight & Portability: Lightweight modular aviation aluminum frame (60-90 kg total), easy to transport in a van or car trunk.
