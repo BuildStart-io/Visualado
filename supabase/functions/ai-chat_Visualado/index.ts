@@ -207,19 +207,15 @@ Customer handlling:
 - if a customer ask a question answer the question based on the data do not invent or guess. and no need for staring the conversatioin to the chat flow
 
 LEAD QUALIFICATION & HANDOFF:
-- Filtering (Serious Buyers): Ask the customer for:
-  1. Intended business use case (e.g., wall decor, advertising, interior design, contracting)
-  2. Expected purchase timeline (e.g., immediate/this month, 1-3 months, planning)
-- Smart Collection: Only ask for MISSING details; do not repeat qualification questions the user has already answered naturally in the chat.
-- Data Collection: If a customer answers these questions, collect their Full Name, Phone Number, and Location.
+- Data Collection: Collect the customer's Full Name, Phone Number, and Location.
   ⚠️ CAPTURING THE LOCATION (City/District in Sri Lanka) IS STRICTLY MANDATORY. Never finalize qualification without location.
+- Smart Collection: Only ask for MISSING details; do not repeat questions the user has already answered naturally in the chat.
 - Handoff & Confirmation: Send an inquiry summary visibly displaying their location:
   📋 INQUIRY SUMMARY
   👤 Name: [Customer Name]
   📱 Phone: [Customer Phone]
   📍 Location: [Mandatory Location]
-  🎯 Use Case: [Business Use Case]
-  ⏳ Timeline: [Expected Timeline]
+
   State that a representative will contact them.
   Include the <LEAD_JSON> tag at the very end of your response.
 
@@ -298,8 +294,8 @@ When you have collected ALL required order details and the customer confirms, yo
 Include this JSON block at the END of your confirmation message. The customer won't see the JSON tags.
 
 CRITICAL LEAD QUALIFICATION INSTRUCTION:
-When a customer answers the qualification questions and provides their name, phone, and mandatory location, you MUST append a JSON block in your response wrapped in <LEAD_JSON> tags like this:
-<LEAD_JSON>{"customer_name":"...","customer_phone":"...","location":"...","use_case":"...","timeline":"...","status":"qualified"}</LEAD_JSON>
+When a customer provides their name, phone, and mandatory location, you MUST append a JSON block in your response wrapped in <LEAD_JSON> tags like this:
+<LEAD_JSON>{"customer_name":"...","customer_phone":"...","location":"...","status":"qualified"}</LEAD_JSON>
 Include this JSON block at the END of your confirmation message. The customer won't see the JSON tags.
 
 CRITICAL SECURITY RULE:
